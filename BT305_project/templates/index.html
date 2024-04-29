@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synthetica - Protein Data Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 50px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Synthetica - Protein Data Generator</h1>
+        <button class="btn btn-primary mb-4" id="toggleForm">Toggle Form</button>
+        <div class="card" id="dataForm">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Protein Data Generator</h3>
+            </div>
+            <div class="card-body">
+                <form id="proteinForm">
+                    <div class="form-group">
+                        <label for="num_lines">Number of Lines:</label>
+                        <input type="number" class="form-control" id="num_lines" name="num_lines" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exclude_aa">Excluded Amino Acids:</label>
+                        <input type="text" class="form-control" id="exclude_aa" name="exclude_aa" placeholder="Enter excluded amino acids">
+                    </div>
+                    <div class="form-group">
+                        <label for="num_models">Number of Models:</label>
+                        <input type="number" class="form-control" id="num_models" name="num_models" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="generateButton">Generate</button>
+                    <p id="timer">Time taken: 0.00 seconds</p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        &copy; 2024 Synthetica. All rights reserved. | <a href="https://github.com/a-m-a-nkumar">GitHub</a>
+    </footer>
+    <script>
+        document.getElementById('toggleForm').addEventListener('click', function() {
+            var form = document.getElementById('dataForm');
+            form.classList.toggle('d-none');
+        });
+
+        document.getElementById('generateButton').addEventListener('click', function() {
+            var startTime = Date.now();
+            var form = document.getElementById('proteinForm');
+            var formData = new FormData(form);
+            var timer = document.getElementById('timer');
+            var timerInterval;
+
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                var endTime = Date.now();
+                var timeTaken = (endTime - startTime) / 1000;
+                timer.innerText = "Time taken: " + timeTaken.toFixed(2) + " seconds";
+                clearInterval(timerInterval); // Stop the timer
+                return response.blob();
+            })
+            .then(blob => {
+                // Create a temporary link to trigger the download
+                var url = window.URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'protein_data.zip';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+            // Update timer every 10 milliseconds
+            timerInterval = setInterval(function() {
+                var currentTime = Date.now();
+                var timeElapsed = (currentTime - startTime) / 1000;
+                timer.innerText = "Time taken: " + timeElapsed.toFixed(2) + " seconds";
+            }, 10);
+        });
+    </script>
+</body>
+</html>
+
