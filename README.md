@@ -16,7 +16,7 @@ Synthetica is an automated tool for generating custom proteins with randomized a
 3.  Install from this repo as:
 
 ```
-git clone https://github.com/Pushkar1853/ProteoSynth.git 
+git clone https://github.com/a-m-a-nkumar/Synthetica.git 
 ```
 
 3.  After going to the project directory , install the flask:
