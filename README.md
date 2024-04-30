@@ -6,7 +6,7 @@ Synthetica is an automated tool for generating custom proteins with randomized a
 ## How to install
 1. Open the Linux Terminal & execute the following Linux Command that will update all the packages installed there.
 ```
- sudo apt update
+ sudo apt update 
 ```
 2. Now, directly paste the following command in the Terminal & execute it. It will directly download the latest Python File.
 
