@@ -68,5 +68,8 @@ python3 app.py
   for Windows -> use WSL
   for MAC -> use VirtualBox)
   ```
-
+## Made by:
+Aman Kumar - 210106007
+Shaleen Kakkad - 210106062
+Mohit Raj - 210106034
 
